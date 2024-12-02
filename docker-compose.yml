@@ -1,0 +1,63 @@
+services:
+  user_v1:
+    build:
+      context: .
+    command: python user_microservice_v1.py
+    ports:
+      - "5001:5001"
+    depends_on:
+      - mongodb
+      - rabbitmq
+
+  user_v2:
+    build:
+      context: .
+    command: python user_microservice_v2.py
+    ports:
+      - "5002:5002"
+    depends_on:
+      - mongodb
+      - rabbitmq
+
+  order_service:
+    build:
+      context: .
+    command: python order_microservice.py
+    ports:
+      - "5003:5003"
+    depends_on:
+      - mongodb
+      - rabbitmq
+
+  event_handler:
+    build:
+      context: .
+    command: python event_handler.py
+    depends_on:
+      - rabbitmq
+      - mongodb
+
+  api_gateway:
+    build:
+      context: .
+    command: python api_gateway.py
+    ports:
+      - "80:8000"
+    depends_on:
+      - user_v1
+      - user_v2
+      - order_service
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    command: ["mongod", "--bind_ip", "0.0.0.0"]
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
