@@ -24,13 +24,13 @@ jobs:
 
     - name: Build the Docker image
       run: |
-        docker build . --file Dockerfile --tag ${{ secrets.DOCKER_USERNAME }}/COEN_424_Ass2:${{ env.TAG }}
+        docker build . --file Dockerfile --tag ${{ secrets.DOCKER_USERNAME }}/coen_424_ass2:${{ env.TAG }}
 
     - name: Push the Docker image
       run: |
-        docker push ${{ secrets.DOCKER_USERNAME }}/COEN_424_Ass2:${{ env.TAG }}
-        docker tag ${{ secrets.DOCKER_USERNAME }}/COEN_424_Ass2:${{ env.TAG }} ${{ secrets.DOCKER_USERNAME }}/COEN_424_Ass2:latest
-        docker push ${{ secrets.DOCKER_USERNAME }}/COEN_424_Ass2:latest
+        docker push ${{ secrets.DOCKER_USERNAME }}/coen_424_ass2:${{ env.TAG }}
+        docker tag ${{ secrets.DOCKER_USERNAME }}/coen_424_ass2:${{ env.TAG }} ${{ secrets.DOCKER_USERNAME }}/coen_424_ass2:latest
+        docker push ${{ secrets.DOCKER_USERNAME }}/coen_424_ass2:latest
 
   deploy:
 
