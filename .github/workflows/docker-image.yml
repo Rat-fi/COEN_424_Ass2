@@ -9,24 +9,27 @@ on:
 jobs:
 
   build-and-push:
-
     runs-on: ubuntu-latest
 
     steps:
     - name: Check out code
       uses: actions/checkout@v4
 
+    - name: Set image tag
+      id: tag
+      run: echo "TAG=$(date +%s)" >> $GITHUB_ENV
+
     - name: Log in to Docker Hub
       run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
     - name: Build the Docker image
       run: |
-        docker build . --file Dockerfile --tag ${{ secrets.DOCKER_USERNAME }}/my-image-name:$(date +%s)
+        docker build . --file Dockerfile --tag ${{ secrets.DOCKER_USERNAME }}/my-image-name:${{ env.TAG }}
 
     - name: Push the Docker image
       run: |
-        docker tag ${{ secrets.DOCKER_USERNAME }}/my-image-name:$(date +%s) ${{ secrets.DOCKER_USERNAME }}/my-image-name:latest
-        docker push ${{ secrets.DOCKER_USERNAME }}/my-image-name:$(date +%s)
+        docker push ${{ secrets.DOCKER_USERNAME }}/my-image-name:${{ env.TAG }}
+        docker tag ${{ secrets.DOCKER_USERNAME }}/my-image-name:${{ env.TAG }} ${{ secrets.DOCKER_USERNAME }}/my-image-name:latest
         docker push ${{ secrets.DOCKER_USERNAME }}/my-image-name:latest
 
   deploy:
