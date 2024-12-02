@@ -45,6 +45,6 @@ jobs:
         username: ${{ secrets.EC2_USER }}
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
-          cd ~/microservices_project
+          cd ~/Assignment_2
           docker-compose pull
           docker-compose up -d
