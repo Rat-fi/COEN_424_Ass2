@@ -1,5 +1,6 @@
 services:
   user_v1:
+    image: ratfi/user_microservice_v1:latest
     build:
       context: .
     command: python user_microservice_v1.py
@@ -10,6 +11,7 @@ services:
       - rabbitmq
 
   user_v2:
+    image: ratfi/user_microservice_v2:latest
     build:
       context: .
     command: python user_microservice_v2.py
@@ -20,6 +22,7 @@ services:
       - rabbitmq
 
   order_service:
+    image: ratfi/order_microservice:latest
     build:
       context: .
     command: python order_microservice.py
@@ -30,6 +33,7 @@ services:
       - rabbitmq
 
   event_handler:
+    image: ratfi/event_handler:latest
     build:
       context: .
     command: python event_handler.py
@@ -38,6 +42,7 @@ services:
       - mongodb
 
   api_gateway:
+    image: ratfi/api_gateway:latest
     build:
       context: .
     command: python api_gateway.py
