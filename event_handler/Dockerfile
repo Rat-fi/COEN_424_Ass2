@@ -1,5 +1,14 @@
 FROM python:3.9-slim
+
 WORKDIR /app
-COPY . /app
+
+# Copy the shared requirements.txt file from the root context
+COPY ../../requirements.txt requirements.txt
+
+# Install dependencies
 RUN pip install -r requirements.txt
-CMD ["python", "event_handler.py"]
+
+# Copy the microservice-specific code
+COPY . .
+
+CMD ["python", "event_handler.py"]  # Update for each service

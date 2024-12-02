@@ -1,5 +1,14 @@
 FROM python:3.9-slim
+
 WORKDIR /app
-COPY . /app
+
+# Copy the shared requirements.txt file from the root context
+COPY ../../requirements.txt requirements.txt
+
+# Install dependencies
 RUN pip install -r requirements.txt
-CMD ["python", "user_microservice_v1.py"]
+
+# Copy the microservice-specific code
+COPY . .
+
+CMD ["python", "user_microservice_v1.py"]  # Update for each service
